@@ -3,3 +3,7 @@ script:
 - "./gradlew build"
 jdk:
 - oraclejdk8
+env:
+  global:
+  - secure: uPdvv1mrwT1WuYvXKQ2yFHLTb3AX1TUfFsVzDHT5k3oSHTsSE5HfKMVrE/J1dp9BRNCOjNc1SYREJhY1YLxxEUOjkP+6E7vLf9/u8+/08NRy51+wzJ6hlV7BxKGbuKSL37NOkBdi2N0E+1QRpOIMX4c3w4RkB3cEw+zSxwB3jY4=
+  - secure: pSN/jVqcHByjEj0uZgyJdjOHYIalLdhic3faaOXppfb0GR4p2VHCQoKEPNvHOTYFCRY5q1rQrcGzMNaQUrB8HmW9yEn2kJtDbX8Xw1B2G3AvL1wGEed3eNI2ppgTum1qLcw0jcHSKbGQyt84PPOOyRojkX65h1Yo4VuQMFOCBQ8=
