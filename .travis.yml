@@ -1,6 +1,6 @@
 language: java
 script:
-- "./gradlew build"
+- "./gradlew build uploadArchives"
 jdk:
 - oraclejdk8
 env:

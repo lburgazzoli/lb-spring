@@ -16,14 +16,27 @@
  * limitations under the License.
  */
 
-rootProject.name = "lb-spring"
+// *****************************************************************************
+//
+// *****************************************************************************
+    
+project.ext {
+    bundleImportPackages = [
+        '*'
+    ]
+    bundleExportPackages = [
+        '*'
+    ]
+}
 
-include "spring-boot-actuator-jolokia"
-include "spring-cloud-etcd"
-include "spring-cloud-etcd-config"
-include "spring-cloud-etcd-discovery"
+jar {
+    manifest {
+        instruction 'Import-Package' , bundleImportPackages.join(',')
+        instruction 'Export-Package' , bundleExportPackages.join(',')
+    }
+}
 
-rootProject.children.each {
-    it.name = "lb-" + it.name
+dependencies {
+    compile "org.springframework.cloud:spring-cloud-commons:$versions.springCloud"
 }
 
