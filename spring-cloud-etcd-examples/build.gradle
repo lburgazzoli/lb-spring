@@ -37,7 +37,8 @@ jar {
 }
 
 dependencies {
-    compile "org.springframework.cloud:spring-cloud-context:$versions.springCloud"
-    compile "org.springframework.cloud:spring-cloud-commons:$versions.springCloud"
+    compile project(":lb-spring-cloud-etcd")
+    compile project(":lb-spring-cloud-etcd-config")
+    compile project(":lb-spring-cloud-etcd-discovery")
 }
 
