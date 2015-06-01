@@ -15,8 +15,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.github.lburgazzoli.spring.cloud.etcd.config;
+package com.github.lburgazzoli.spring.cloud.etcd.examples;
 
-public class EtcdConfig {
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class EtcdApplication {
+    public static void main(String[] args) {
+        SpringApplication.run(EtcdApplication.class, args);
+    }
 }
 

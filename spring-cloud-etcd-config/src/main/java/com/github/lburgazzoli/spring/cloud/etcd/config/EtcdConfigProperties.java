@@ -15,8 +15,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.github.lburgazzoli.spring.cloud.etcd;
+package com.github.lburgazzoli.spring.cloud.etcd.config;
 
-public class Etcd {
+import org.hibernate.validator.constraints.NotEmpty;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+
+@ConfigurationProperties("spring.cloud.etcd.config")
+public class EtcdConfigProperties {
+    private boolean enabled = true;
+
+    @NotEmpty
+    private String prefix = "config";
+
+    @NotEmpty
+    private String defaultContext = "application";
+
+    @NotEmpty
+    private String profileSeparator = ",";
 }
-

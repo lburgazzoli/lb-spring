@@ -15,10 +15,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.github.lburgazzoli.spring.cloud.etcd.examples;
+package com.github.lburgazzoli.spring.cloud.etcd;
 
-public class EtcdMain {
-    public static void main(String[] args) {
+import org.springframework.web.client.RestTemplate;
+
+public class EtcdClient {
+    private final RestTemplate restTemplate;
+    private final EtcdClientProperties properties;
+
+    public EtcdClient(final EtcdClientProperties properties) {
+        this.properties = properties;
+        this.restTemplate = new RestTemplate();
     }
 }
-

@@ -15,28 +15,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package com.github.lburgazzoli.spring.cloud.etcd;
 
-// *****************************************************************************
-//
-// *****************************************************************************
-    
-project.ext {
-    bundleImportPackages = [
-        '*'
-    ]
-    bundleExportPackages = [
-        '*'
-    ]
+import org.springframework.boot.context.properties.ConfigurationProperties;
+
+import javax.validation.constraints.NotNull;
+
+@ConfigurationProperties("spring.cloud.etcd")
+public class EtcdClientProperties {
+    @NotNull
+    private String urls = "http://localhost:2379,http://localhost:4001";
+    private String root = "config";
 }
-
-jar {
-    manifest {
-        instruction 'Import-Package' , bundleImportPackages.join(',')
-        instruction 'Export-Package' , bundleExportPackages.join(',')
-    }
-}
-
-dependencies {
-    compile project(":lb-spring-cloud-etcd")
-}
-

@@ -37,6 +37,6 @@ jar {
 }
 
 dependencies {
-    project(":lb-spring-cloud-etcd")
+    compile project(":lb-spring-cloud-etcd")
 }
 

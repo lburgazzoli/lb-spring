@@ -37,6 +37,8 @@ jar {
 }
 
 dependencies {
+    compile "org.springframework.boot:spring-boot:$versions.springBoot"
+    compile "org.springframework.boot:spring-boot-autoconfigure:$versions.springBoot"
     compile "org.springframework.cloud:spring-cloud-context:$versions.springCloud"
     compile "org.springframework.cloud:spring-cloud-commons:$versions.springCloud"
 }
