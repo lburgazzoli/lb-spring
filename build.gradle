@@ -36,7 +36,6 @@ buildscript {
         classpath 'com.bmuschko:gradle-nexus-plugin:2.3'
         classpath 'com.github.ben-manes:gradle-versions-plugin:0.9'
         classpath 'org.springframework.boot:spring-boot-gradle-plugin:1.2.3.RELEASE'
-        classpath 'com.ofg:uptodate-gradle-plugin:1.5.1'
     }
 }
 
@@ -51,7 +50,6 @@ subprojects {
     apply plugin: 'idea'
     apply plugin: 'osgi'
     apply plugin: 'com.github.ben-manes.versions'
-    apply plugin: 'com.ofg.uptodate'
     apply plugin: 'com.bmuschko.nexus'
 
 
@@ -61,7 +59,7 @@ subprojects {
     targetCompatibility = '1.8'
     
     project.ext {
-        gradleVersion       = '2.4'
+        gradleVersion       = "2.4"
         gradleScriptDir     = "${rootProject.projectDir}/gradle"
         isReleaseVersion    = !version.endsWith("SNAPSHOT")
         gitRoot             = "https://github.com/lburgazzoli"
@@ -76,9 +74,8 @@ subprojects {
         }
 
         versions = [
-            gradle             : '2.3',
             slf4j              : '1.7.12',
-            log4j2             : '2.2',
+            log4j2             : '2.3',
             jackson            : '2.5.2',
             jacksonCore        : '2.5.2',
             jacksonDatabind    : '2.5.2',
@@ -157,9 +154,9 @@ subprojects {
         manifest.attributes['Bundle-Description'    ] = "lb :: ${project.name}"
         manifest.attributes['Bundle-Name'           ] = "lb :: ${project.name}"
         manifest.attributes['Bundle-SymbolicName'   ] = "${project.group}-${project.name}"
-        manifest.attributes['Bundle-Version'        ] = project.version
+        manifest.attributes['Bundle-Version'        ] = osgiVersion
         manifest.attributes['Implementation-Title'  ] = "${project.group}-${project.name}-${project.version}"
-        manifest.attributes['Implementation-Version'] = project.version
+        manifest.attributes['Implementation-Version'] = osgiVersion
         manifest.attributes['Implementation-Vendor' ] = 'lb'
     }
 
@@ -220,6 +217,13 @@ subprojects {
                 connection          = "scm:git:${project.gitProject}.git"
                 developerConnection = "scm:git:${project.gitProject}.git"
             }
+
+            developers {
+                developer {
+                    id 'lburgazzoli'
+                    name 'Luca Burgazzoli'
+                }
+            }
         }
     }
 }
@@ -229,5 +233,5 @@ subprojects {
 // *****************************************************************************
 
 task wrapper(type: Wrapper) {
-    gradleVersion = "$gradleVersion"
+    gradleVersion = gradleVersion
 }
