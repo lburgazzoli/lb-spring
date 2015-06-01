@@ -15,16 +15,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package com.github.lburgazzoli.spring.cloud.etcd.examples;
 
-rootProject.name = "lb-spring"
-
-include "spring-boot-actuator-jolokia"
-include "spring-cloud-etcd"
-include "spring-cloud-etcd-config"
-include "spring-cloud-etcd-discovery"
-include "spring-cloud-etcd-examples"
-
-rootProject.children.each {
-    it.name = "lb-" + it.name
+public class EtcdMain {
+    public static void main(String[] args) {
+    }
 }
 
