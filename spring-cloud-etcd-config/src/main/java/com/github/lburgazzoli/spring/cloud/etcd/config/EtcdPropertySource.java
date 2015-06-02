@@ -18,25 +18,27 @@
 package com.github.lburgazzoli.spring.cloud.etcd.config;
 
 import com.github.lburgazzoli.spring.cloud.etcd.EtcdClient;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.core.env.EnumerablePropertySource;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public class EtcdPropertySource extends EnumerablePropertySource<EtcdClient> {
+    private static final Logger LOGGER = LoggerFactory.getLogger(EtcdPropertySource.class);
+
     private String context;
     private Map<String, String> properties;
 
     public EtcdPropertySource(String context, EtcdClient source) {
         super(context, source);
         this.context = context;
-
-        if (!this.context.endsWith("/")) {
-            this.context = this.context + "/";
-        }
+        this.properties = new HashMap<>();
     }
 
     public void init() {
-
+        LOGGER.info(">> {}", this.context);
     }
 
     @Override

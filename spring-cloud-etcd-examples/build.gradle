@@ -16,29 +16,22 @@
  * limitations under the License.
  */
 
+apply plugin: 'spring-boot'
+
 // *****************************************************************************
 //
 // *****************************************************************************
-    
-project.ext {
-    bundleImportPackages = [
-        '*'
-    ]
-    bundleExportPackages = [
-        '*'
-    ]
-}
-
-jar {
-    manifest {
-        instruction 'Import-Package' , bundleImportPackages.join(',')
-        instruction 'Export-Package' , bundleExportPackages.join(',')
-    }
-}
 
 dependencies {
     compile project(":lb-spring-cloud-etcd")
     compile project(":lb-spring-cloud-etcd-config")
-    compile project(":lb-spring-cloud-etcd-discovery")
+    //compile project(":lb-spring-cloud-etcd-discovery")
 }
 
+bootRun {
+    workingDir = projectDir
+    jvmArgs    = [
+        '-Dorg.jboss.logging.provider=slf4j',
+        '-Djava.util.logging.manager=org.apache.logging.log4j.jul.LogManager'
+    ]
+}

@@ -46,10 +46,10 @@ public class EtcdPropertySourceLocator implements PropertySourceLocator {
             String appName = env.getProperty("spring.application.name");
             List<String> profiles = Arrays.asList(env.getActiveProfiles());
 
-            String prefix = ""; //this.properties.getPrefix();
+            String prefix = this.properties.getPrefix();
             List<String> contexts = new ArrayList<>();
 
-            String defaultContext = prefix + "/"; //+ this.properties.getDefaultContext();
+            String defaultContext = this.properties.getDefaultContext();
             contexts.add(defaultContext + "/");
             addProfiles(contexts, defaultContext, profiles);
 
@@ -57,12 +57,13 @@ public class EtcdPropertySourceLocator implements PropertySourceLocator {
             contexts.add(baseContext + "/");
             addProfiles(contexts, baseContext, profiles);
 
-            CompositePropertySource composite = new CompositePropertySource("consul");
+            CompositePropertySource composite = new CompositePropertySource("etcd");
             Collections.reverse(contexts);
 
             for (String propertySourceContext : contexts) {
                 EtcdPropertySource propertySource = create(propertySourceContext);
                 propertySource.init();
+
                 composite.addPropertySource(propertySource);
             }
 
@@ -78,7 +79,7 @@ public class EtcdPropertySourceLocator implements PropertySourceLocator {
 
     private void addProfiles(List<String> contexts, String baseContext, List<String> profiles) {
         for (String profile : profiles) {
-            //contexts.add(baseContext + this.properties.getProfileSeparator() + profile + "/");
+            contexts.add(baseContext + this.properties.getProfileSeparator() + profile + "/");
         }
     }
 

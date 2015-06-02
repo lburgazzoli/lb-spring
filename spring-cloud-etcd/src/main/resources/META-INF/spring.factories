@@ -1,3 +1,3 @@
 # Auto Configuration
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-org.springframework.cloud.etcd.EtcdClientAutoConfiguration
+com.github.lburgazzoli.spring.cloud.etcd.EtcdClientAutoConfiguration

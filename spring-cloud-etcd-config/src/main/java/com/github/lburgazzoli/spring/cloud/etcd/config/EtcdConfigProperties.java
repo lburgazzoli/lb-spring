@@ -17,19 +17,46 @@
  */
 package com.github.lburgazzoli.spring.cloud.etcd.config;
 
-import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 @ConfigurationProperties("spring.cloud.etcd.config")
 public class EtcdConfigProperties {
+
     private boolean enabled = true;
-
-    @NotEmpty
     private String prefix = "config";
-
-    @NotEmpty
     private String defaultContext = "application";
-
-    @NotEmpty
     private String profileSeparator = ",";
+
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+
+    public String getPrefix() {
+        return prefix;
+    }
+
+    public void setPrefix(String prefix) {
+        this.prefix = prefix;
+    }
+
+    public String getDefaultContext() {
+        return defaultContext;
+    }
+
+    public void setDefaultContext(String defaultContext) {
+        this.defaultContext = defaultContext;
+    }
+
+    public String getProfileSeparator() {
+        return profileSeparator;
+    }
+
+    public void setProfileSeparator(String profileSeparator) {
+        this.profileSeparator = profileSeparator;
+    }
 }
