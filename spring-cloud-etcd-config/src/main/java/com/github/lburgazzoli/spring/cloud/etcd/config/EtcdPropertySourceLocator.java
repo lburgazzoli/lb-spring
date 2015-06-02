@@ -17,8 +17,8 @@
  */
 package com.github.lburgazzoli.spring.cloud.etcd.config;
 
+import com.github.lburgazzoli.etcd.EtcdClient;
 import com.github.lburgazzoli.spring.cloud.etcd.Etcd;
-import com.github.lburgazzoli.spring.cloud.etcd.EtcdClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cloud.bootstrap.config.PropertySourceLocator;

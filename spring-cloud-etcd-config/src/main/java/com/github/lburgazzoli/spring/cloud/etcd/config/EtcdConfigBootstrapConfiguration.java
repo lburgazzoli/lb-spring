@@ -17,7 +17,7 @@
  */
 package com.github.lburgazzoli.spring.cloud.etcd.config;
 
-import com.github.lburgazzoli.spring.cloud.etcd.EtcdClient;
+import com.github.lburgazzoli.etcd.EtcdClient;
 import com.github.lburgazzoli.spring.cloud.etcd.EtcdClientAutoConfiguration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;

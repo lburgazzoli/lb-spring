@@ -17,9 +17,10 @@
  */
 package com.github.lburgazzoli.spring.cloud.etcd.config;
 
+import com.github.lburgazzoli.etcd.EtcdClient;
+import com.github.lburgazzoli.etcd.EtcdException;
+import com.github.lburgazzoli.etcd.EtcdNode;
 import com.github.lburgazzoli.spring.cloud.etcd.Etcd;
-import com.github.lburgazzoli.spring.cloud.etcd.EtcdClient;
-import com.github.lburgazzoli.spring.cloud.etcd.EtcdNode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.env.EnumerablePropertySource;
@@ -39,12 +40,16 @@ public class EtcdPropertySource extends EnumerablePropertySource<EtcdClient> {
     }
 
     public void init() {
-        final Optional<EtcdNode> node = super.getSource().get(super.getName());
-        if(node.isPresent()) {
-            process(node.get());
-        }
+        try {
+            final Optional<EtcdNode> node = super.getSource().getNode(super.getName());
+            if (node.isPresent()) {
+                process(node.get());
+            }
 
-        LOGGER.info("Name: {} ==> {}", super.getName(), properties);
+            LOGGER.info("Name: {} ==> {}", super.getName(), properties);
+        } catch(EtcdException e) {
+            LOGGER.warn("", e);
+        }
     }
 
     @Override

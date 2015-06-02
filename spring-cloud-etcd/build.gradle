@@ -37,6 +37,7 @@ jar {
 }
 
 dependencies {
+    compile "com.github.lburgazzoli:lb-etcd:$versions.lbEtcd"
     compile "org.springframework.boot:spring-boot:$versions.springBoot"
     compile "org.springframework.boot:spring-boot-autoconfigure:$versions.springBoot"
     compile "org.springframework.cloud:spring-cloud-context:$versions.springCloud"
