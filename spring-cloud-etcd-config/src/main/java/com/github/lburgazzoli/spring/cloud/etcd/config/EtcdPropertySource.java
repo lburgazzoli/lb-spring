@@ -17,28 +17,34 @@
  */
 package com.github.lburgazzoli.spring.cloud.etcd.config;
 
+import com.github.lburgazzoli.spring.cloud.etcd.Etcd;
 import com.github.lburgazzoli.spring.cloud.etcd.EtcdClient;
+import com.github.lburgazzoli.spring.cloud.etcd.EtcdNode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.env.EnumerablePropertySource;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 public class EtcdPropertySource extends EnumerablePropertySource<EtcdClient> {
     private static final Logger LOGGER = LoggerFactory.getLogger(EtcdPropertySource.class);
 
-    private String context;
-    private Map<String, String> properties;
+    private final Map<String, String> properties;
 
-    public EtcdPropertySource(String context, EtcdClient source) {
-        super(context, source);
-        this.context = context;
+    public EtcdPropertySource(String root, EtcdClient source) {
+        super(root, source);
         this.properties = new HashMap<>();
     }
 
     public void init() {
-        LOGGER.info(">> {}", this.context);
+        final Optional<EtcdNode> node = super.getSource().get(super.getName());
+        if(node.isPresent()) {
+            process(node.get());
+        }
+
+        LOGGER.info("Name: {} ==> {}", super.getName(), properties);
     }
 
     @Override
@@ -49,6 +55,27 @@ public class EtcdPropertySource extends EnumerablePropertySource<EtcdClient> {
     @Override
     public Object getProperty(String name) {
         return properties.get(name);
+    }
+
+    // *************************************************************************
+    //
+    // *************************************************************************
+
+    private void process(final EtcdNode root) {
+        LOGGER.info("Process {}", root);
+
+        if(root.getNodes().isEmpty() && root.getValue().isPresent()) {
+            final String key = root.getKey().startsWith(Etcd.PATH_SEPARATOR)
+                ? root.getKey().substring(1)
+                : root.getKey();
+
+            properties.put(
+                key.replace(Etcd.PATH_SEPARATOR, Etcd.PROPERTIES_SEPARATOR),
+                root.getValue().get()
+            );
+        }
+
+        root.getNodes().forEach(this::process);
     }
 }
 

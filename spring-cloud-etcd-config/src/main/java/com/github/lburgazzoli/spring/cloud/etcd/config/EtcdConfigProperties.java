@@ -25,7 +25,7 @@ public class EtcdConfigProperties {
     private boolean enabled = true;
     private String prefix = "config";
     private String defaultContext = "application";
-    private String profileSeparator = ",";
+    private String profileSeparator = "-";
 
 
     public boolean isEnabled() {

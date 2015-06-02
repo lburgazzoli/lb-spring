@@ -17,17 +17,11 @@
  */
 package com.github.lburgazzoli.spring.cloud.etcd;
 
-import org.springframework.boot.context.properties.ConfigurationProperties;
+public class Etcd {
+    public static final String NAME = "etcd";
+    public static final String PATH_SEPARATOR = "/";
+    public static final String PROPERTIES_SEPARATOR = ".";
+    public static final String PROPERTY_SPRING_APPLICATION_NAME = "spring.application.name";
+    public static final String REST_PATH_KEYS = "/v2/keys/{key}";
 
-@ConfigurationProperties("spring.cloud.etcd")
-public class EtcdClientProperties {
-    private String url = "http://localhost:4001";
-
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
-    }
 }

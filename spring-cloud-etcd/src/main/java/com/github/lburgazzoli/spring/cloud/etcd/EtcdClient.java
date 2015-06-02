@@ -17,14 +17,40 @@
  */
 package com.github.lburgazzoli.spring.cloud.etcd;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.http.client.ClientHttpResponse;
+import org.springframework.web.client.ResponseErrorHandler;
 import org.springframework.web.client.RestTemplate;
 
+import java.io.IOException;
+import java.util.Optional;
+
 public class EtcdClient {
+    private static final Logger LOGGER = LoggerFactory.getLogger(EtcdClient.class);
+
     private final RestTemplate restTemplate;
     private final EtcdClientProperties properties;
 
     public EtcdClient(final EtcdClientProperties properties) {
         this.properties = properties;
         this.restTemplate = new RestTemplate();
+        this.restTemplate.setErrorHandler(new ResponseErrorHandler() {
+            @Override
+            public boolean hasError(ClientHttpResponse response) throws IOException {
+                return false;
+            }
+            @Override
+            public void handleError(ClientHttpResponse response) throws IOException {
+            }
+        });
+    }
+
+    public Optional<EtcdNode> get(String key) {
+        final EtcdResponse response =
+            this.restTemplate.getForObject(
+                this.properties.getUrl() + Etcd.REST_PATH_KEYS, EtcdResponse.class, key);
+
+        return response.getNode();
     }
 }

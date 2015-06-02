@@ -17,7 +17,10 @@
  */
 package com.github.lburgazzoli.spring.cloud.etcd.config;
 
+import com.github.lburgazzoli.spring.cloud.etcd.Etcd;
 import com.github.lburgazzoli.spring.cloud.etcd.EtcdClient;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.cloud.bootstrap.config.PropertySourceLocator;
 import org.springframework.core.env.CompositePropertySource;
 import org.springframework.core.env.ConfigurableEnvironment;
@@ -25,11 +28,11 @@ import org.springframework.core.env.Environment;
 import org.springframework.core.env.PropertySource;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
 public class EtcdPropertySourceLocator implements PropertySourceLocator {
+    private static final Logger LOGGER = LoggerFactory.getLogger(EtcdPropertySourceLocator.class);
 
     private final EtcdClient etcd;
     private final EtcdConfigProperties properties;
@@ -42,26 +45,27 @@ public class EtcdPropertySourceLocator implements PropertySourceLocator {
     @Override
     public PropertySource<?> locate(Environment environment) {
         if (environment instanceof ConfigurableEnvironment) {
-            ConfigurableEnvironment env = (ConfigurableEnvironment) environment;
-            String appName = env.getProperty("spring.application.name");
-            List<String> profiles = Arrays.asList(env.getActiveProfiles());
+            final ConfigurableEnvironment env = (ConfigurableEnvironment) environment;
+            final String[] profiles = env.getActiveProfiles();
+            final List<String> contexts = new ArrayList<>();
 
-            String prefix = this.properties.getPrefix();
-            List<String> contexts = new ArrayList<>();
+            setupContext(
+                contexts,
+                profiles,
+                this.properties.getPrefix(),
+                this.properties.getDefaultContext());
 
-            String defaultContext = this.properties.getDefaultContext();
-            contexts.add(defaultContext + "/");
-            addProfiles(contexts, defaultContext, profiles);
+            setupContext(
+                contexts,
+                profiles,
+                this.properties.getPrefix(),
+                env.getProperty(Etcd.PROPERTY_SPRING_APPLICATION_NAME));
 
-            String baseContext = prefix + "/" + appName;
-            contexts.add(baseContext + "/");
-            addProfiles(contexts, baseContext, profiles);
-
-            CompositePropertySource composite = new CompositePropertySource("etcd");
+            CompositePropertySource composite = new CompositePropertySource(Etcd.NAME);
             Collections.reverse(contexts);
 
-            for (String propertySourceContext : contexts) {
-                EtcdPropertySource propertySource = create(propertySourceContext);
+            for (String context : contexts) {
+                EtcdPropertySource propertySource = new EtcdPropertySource(context, etcd);
                 propertySource.init();
 
                 composite.addPropertySource(propertySource);
@@ -73,14 +77,16 @@ public class EtcdPropertySourceLocator implements PropertySourceLocator {
         return null;
     }
 
-    private EtcdPropertySource create(String context) {
-        return new EtcdPropertySource(context, etcd);
-    }
+    private void setupContext(List<String> contexts, String[] profiles, String prefix, String item) {
+        String ctx = prefix + Etcd.PATH_SEPARATOR + item;
+        if(ctx.startsWith(Etcd.PATH_SEPARATOR)) {
+            ctx = ctx.substring(1);
+        }
 
-    private void addProfiles(List<String> contexts, String baseContext, List<String> profiles) {
+        contexts.add(ctx);
+
         for (String profile : profiles) {
-            contexts.add(baseContext + this.properties.getProfileSeparator() + profile + "/");
+            contexts.add(ctx + this.properties.getProfileSeparator() + profile);
         }
     }
-
 }

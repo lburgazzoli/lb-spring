@@ -1,0 +1,17 @@
+spring:
+    application:
+        name: etcdexample
+    cloud:
+        bootstrap:
+            enabled: true
+        etcd:
+            enabled: true
+    profiles:
+        active:
+
+---
+spring:
+    profiles: test1
+---
+spring:
+    profiles: test2

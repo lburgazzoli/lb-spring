@@ -7,7 +7,9 @@
             <PatternLayout pattern="%d{HH:mm:ss.SSS}|%-5level|%-32.32c{1}|%t > %m%n"/>
         </Console>
     </appenders>
+
     <loggers>
+        <Logger name="org.springframework.web.client" level="DEBUG"/>
         <root level="INFO">
             <appender-ref ref="STDOUT"/>
         </root>
