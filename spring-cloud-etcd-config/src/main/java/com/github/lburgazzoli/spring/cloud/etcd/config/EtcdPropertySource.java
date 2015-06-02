@@ -49,9 +49,8 @@ public class EtcdPropertySource extends EnumerablePropertySource<EtcdClient> {
             if (node.isPresent()) {
                 process(node.get());
             }
-
         } catch(EtcdException e) {
-            //LOGGER.warn("", e);
+            LOGGER.warn("", e);
         }
     }
 
