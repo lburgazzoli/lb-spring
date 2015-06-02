@@ -17,11 +17,10 @@
  */
 package com.github.lburgazzoli.spring.cloud.etcd;
 
-public class Etcd {
+public class EtcdConstants {
     public static final String NAME = "etcd";
     public static final String PATH_SEPARATOR = "/";
     public static final String PROPERTIES_SEPARATOR = ".";
     public static final String PROPERTY_SPRING_APPLICATION_NAME = "spring.application.name";
-    public static final String REST_PATH_KEYS = "/v2/keys/{key}";
 
 }

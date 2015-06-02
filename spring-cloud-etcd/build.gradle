@@ -37,7 +37,10 @@ jar {
 }
 
 dependencies {
-    compile "com.github.lburgazzoli:lb-etcd:$versions.lbEtcd"
+    compile("com.github.lburgazzoli:lb-etcd:$versions.lbEtcd") {
+        exclude group: 'org.slf4j'
+    }
+
     compile "org.springframework.boot:spring-boot:$versions.springBoot"
     compile "org.springframework.boot:spring-boot-autoconfigure:$versions.springBoot"
     compile "org.springframework.cloud:spring-cloud-context:$versions.springCloud"

@@ -17,7 +17,8 @@
  */
 package com.github.lburgazzoli.spring.cloud.etcd.examples;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -26,11 +27,13 @@ import org.springframework.core.env.Environment;
 @EnableAutoConfiguration
 @SpringBootApplication
 public class EtcdApplication {
-    @Autowired
-    Environment env;
+    private static final Logger LOGGER = LoggerFactory.getLogger(EtcdApplication.class);
 
     public static void main(String[] args) {
-        SpringApplication.run(EtcdApplication.class, args);
+        Environment env = SpringApplication.run(EtcdApplication.class, args).getEnvironment();
+        LOGGER.info(">> {}", env.getProperty("com.github.lburgazzoli.etcd.key1"));
+        LOGGER.info(">> {}", env.getProperty("com.github.lburgazzoli.etcd.key2"));
+        LOGGER.info(">> {}", env.getProperty("com.github.lburgazzoli.etcd.subkey.key3"));
     }
 }
 

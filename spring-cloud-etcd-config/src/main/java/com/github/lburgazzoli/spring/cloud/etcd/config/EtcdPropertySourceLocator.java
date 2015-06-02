@@ -18,7 +18,7 @@
 package com.github.lburgazzoli.spring.cloud.etcd.config;
 
 import com.github.lburgazzoli.etcd.EtcdClient;
-import com.github.lburgazzoli.spring.cloud.etcd.Etcd;
+import com.github.lburgazzoli.spring.cloud.etcd.EtcdConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cloud.bootstrap.config.PropertySourceLocator;
@@ -59,9 +59,9 @@ public class EtcdPropertySourceLocator implements PropertySourceLocator {
                 contexts,
                 profiles,
                 this.properties.getPrefix(),
-                env.getProperty(Etcd.PROPERTY_SPRING_APPLICATION_NAME));
+                env.getProperty(EtcdConstants.PROPERTY_SPRING_APPLICATION_NAME));
 
-            CompositePropertySource composite = new CompositePropertySource(Etcd.NAME);
+            CompositePropertySource composite = new CompositePropertySource(EtcdConstants.NAME);
             Collections.reverse(contexts);
 
             for (String context : contexts) {
@@ -78,8 +78,8 @@ public class EtcdPropertySourceLocator implements PropertySourceLocator {
     }
 
     private void setupContext(List<String> contexts, String[] profiles, String prefix, String item) {
-        String ctx = prefix + Etcd.PATH_SEPARATOR + item;
-        if(ctx.startsWith(Etcd.PATH_SEPARATOR)) {
+        String ctx = prefix + EtcdConstants.PATH_SEPARATOR + item;
+        if(ctx.startsWith(EtcdConstants.PATH_SEPARATOR)) {
             ctx = ctx.substring(1);
         }
 
