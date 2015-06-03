@@ -45,7 +45,7 @@ public class EtcdPropertySource extends EnumerablePropertySource<EtcdClient> {
 
     public void init() {
         try {
-            final Optional<EtcdNode> node = getSource().getNode(getName(), true);
+            final Optional<EtcdNode> node = getSource().getNodes(getName());
             if (node.isPresent()) {
                 process(node.get());
             }
@@ -69,22 +69,16 @@ public class EtcdPropertySource extends EnumerablePropertySource<EtcdClient> {
     // *************************************************************************
 
     private void process(final EtcdNode root) {
-        //LOGGER.info("Process ==> {}", root);
         if(root.getNodes().isEmpty() && root.getValue().isPresent()) {
             final String key = root.getKey().substring(this.prefix.length());
 
-            addProperty(
-                    key.replace(EtcdConstants.PATH_SEPARATOR, EtcdConstants.PROPERTIES_SEPARATOR),
-                    root.getValue().get()
+            properties.put(
+                key.replace(EtcdConstants.PATH_SEPARATOR, EtcdConstants.PROPERTIES_SEPARATOR),
+                root.getValue().get()
             );
         }
 
         root.getNodes().forEach(this::process);
-    }
-
-    private void addProperty(String key, String val) {
-        LOGGER.info("Add property: {} ==> {}", key, val);
-        properties.put(key, val);
     }
 }
 
