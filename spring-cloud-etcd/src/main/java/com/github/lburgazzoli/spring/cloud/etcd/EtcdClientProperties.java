@@ -19,15 +19,19 @@ package com.github.lburgazzoli.spring.cloud.etcd;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
+import java.net.URI;
+import java.util.Arrays;
+import java.util.List;
+
 @ConfigurationProperties("spring.cloud.etcd")
 public class EtcdClientProperties {
-    private String url = "http://localhost:4001";
+    private List<URI> uris = Arrays.asList(URI.create("http://localhost:4001"));
 
-    public String getUrl() {
-        return url;
+    public List<URI> getUris() {
+        return uris;
     }
 
-    public void setUrl(String url) {
-        this.url = url;
+    public void setUis(List<URI> uris) {
+        this.uris = uris;
     }
 }

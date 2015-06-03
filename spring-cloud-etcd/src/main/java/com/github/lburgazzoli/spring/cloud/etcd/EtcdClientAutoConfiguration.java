@@ -17,13 +17,14 @@
  */
 package com.github.lburgazzoli.spring.cloud.etcd;
 
-import com.github.lburgazzoli.etcd.EtcdClient;
-import com.github.lburgazzoli.etcd.EtcdClientBuilder;
+import mousio.etcd4j.EtcdClient;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
+import java.net.URI;
 
 @Configuration
 @EnableConfigurationProperties
@@ -39,6 +40,6 @@ public class EtcdClientAutoConfiguration {
     @Bean
     @ConditionalOnMissingBean
     public EtcdClient etcdClient() {
-        return EtcdClientBuilder.of(etcdClientProperties().getUrl()).build();
+        return new EtcdClient(etcdClientProperties().getUris().toArray(new URI[]{}));
     }
 }

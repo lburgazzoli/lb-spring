@@ -93,7 +93,7 @@ subprojects {
             javaxEl            : '3.0.0',
             hibernateValidator : '5.1.3.Final',
             junit              : '4.12',
-            lbEtcd             : '2.0.11.1-SNAPSHOT',
+            etcd4j             : '2.6.0',
             javaSlang          : '1.2.2'
         ]
     }
@@ -119,7 +119,7 @@ subprojects {
         runtime "org.apache.logging.log4j:log4j-slf4j-impl:$versions.log4j2"
 
         compile "com.google.guava:guava:$versions.guava"
-        compile "com.javaslang:gjavaslang:$versions.javaSlang"
+        compile "com.javaslang:javaslang:$versions.javaSlang"
 
         compile "org.apache.commons:commons-lang3:$versions.commonsLang"
         compile "org.apache.commons:commons-collections4:$versions.commonsCollections"

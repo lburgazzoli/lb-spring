@@ -17,17 +17,18 @@
  */
 package com.github.lburgazzoli.spring.cloud.etcd.config;
 
-import com.github.lburgazzoli.etcd.EtcdClient;
-import com.github.lburgazzoli.etcd.EtcdException;
-import com.github.lburgazzoli.etcd.EtcdNode;
 import com.github.lburgazzoli.spring.cloud.etcd.EtcdConstants;
+import mousio.etcd4j.EtcdClient;
+import mousio.etcd4j.responses.EtcdKeysResponse;
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.env.EnumerablePropertySource;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 
 public class EtcdPropertySource extends EnumerablePropertySource<EtcdClient> {
     private static final Logger LOGGER = LoggerFactory.getLogger(EtcdPropertySource.class);
@@ -45,11 +46,16 @@ public class EtcdPropertySource extends EnumerablePropertySource<EtcdClient> {
 
     public void init() {
         try {
-            final Optional<EtcdNode> node = getSource().getNodes(getName());
-            if (node.isPresent()) {
-                process(node.get());
+            final EtcdKeysResponse response = getSource().getDir(getName())
+                .recursive()
+                .timeout(1, TimeUnit.SECONDS)
+                .send()
+                .get();
+
+            if(response.node != null) {
+                process(response.node);
             }
-        } catch(EtcdException e) {
+        } catch(Exception e) {
             LOGGER.warn("", e);
         }
     }
@@ -68,17 +74,19 @@ public class EtcdPropertySource extends EnumerablePropertySource<EtcdClient> {
     //
     // *************************************************************************
 
-    private void process(final EtcdNode root) {
-        if(root.getNodes().isEmpty() && root.getValue().isPresent()) {
-            final String key = root.getKey().substring(this.prefix.length());
+    private void process(final EtcdKeysResponse.EtcdNode root) {
+        if(CollectionUtils.isEmpty(root.nodes) && StringUtils.isNotBlank(root.value)) {
+            final String key = root.key.substring(this.prefix.length());
 
             properties.put(
                 key.replace(EtcdConstants.PATH_SEPARATOR, EtcdConstants.PROPERTIES_SEPARATOR),
-                root.getValue().get()
+                root.value
             );
         }
 
-        root.getNodes().forEach(this::process);
+        if(CollectionUtils.isNotEmpty(root.nodes)) {
+            root.nodes.forEach(this::process);
+        }
     }
 }
 

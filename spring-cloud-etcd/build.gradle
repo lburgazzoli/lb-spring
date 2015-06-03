@@ -37,9 +37,11 @@ jar {
 }
 
 dependencies {
-    compile("com.github.lburgazzoli:lb-etcd:$versions.lbEtcd") {
-        exclude group: 'org.slf4j'
-    }
+    compile "org.mousio:etcd4j:$versions.etcd4j"
+
+    compile "com.fasterxml.jackson.core:jackson-core:$versions.jackson"
+    compile "com.fasterxml.jackson.core:jackson-databind:$versions.jackson"
+    compile "com.fasterxml.jackson.core:jackson-annotations:$versions.jackson"
 
     compile "org.springframework.boot:spring-boot:$versions.springBoot"
     compile "org.springframework.boot:spring-boot-autoconfigure:$versions.springBoot"

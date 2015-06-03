@@ -17,14 +17,16 @@
  */
 package com.github.lburgazzoli.spring.cloud.etcd.config;
 
-import com.github.lburgazzoli.etcd.EtcdClient;
 import com.github.lburgazzoli.spring.cloud.etcd.EtcdClientAutoConfiguration;
+import mousio.etcd4j.EtcdClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
+
+;
 
 @Configuration
 @Import(EtcdClientAutoConfiguration.class)
@@ -41,7 +43,7 @@ public class EtcdConfigBootstrapConfiguration {
     }
 
     @Bean
-    public EtcdPropertySourceLocator consulPropertySourceLocator() {
+    public EtcdPropertySourceLocator etcdPropertySourceLocator() {
         return new EtcdPropertySourceLocator(etcd, etcdConfigProperties());
     }
 }
